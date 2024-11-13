@@ -50,53 +50,7 @@ public class NurseController {
                     .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
         }
     }
-
-
     //--------------------------------------------------------------------------------------------------------------------------------------
-
-//    // Update Nurse Information
-//    @PreAuthorize("hasRole('Nurse')")
-//    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_NURSE)
-//    public ResponseEntity<BaseApiResponse> updateNurse(@Valid @RequestBody NurseRequest nurseRequest) {
-//        try {
-//            // Validation for fields
-//            if (nurseRequest.getNurseId() == null) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE + "id", Collections.emptyList()));
-//            }
-//            if (nurseRequest.getAge() < 0) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_FORMAT + "age", Collections.emptyList()));
-//            }
-//            if (nurseRequest.getGender() != null && !nurseRequest.getGender().matches("(?i)Male|Female|Other")) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE + "gender", Collections.emptyList()));
-//            }
-//            if (nurseRequest.getAddress() == null || nurseRequest.getAddress().isEmpty()) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE +"address", Collections.emptyList()));
-//            }
-//            if (nurseRequest.getContact() == null || !nurseRequest.getContact().matches("^[0-9]{10,12}$")) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE + "contact", Collections.emptyList()));
-//            }
-//            if (nurseRequest.getShift() == null || nurseRequest.getShift().isEmpty()) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE + "shift", Collections.emptyList()));
-//            }
-//
-//            // If validation passes, proceed with the update
-//            BaseApiResponse response = nurseImpl.updateNurse(nurseRequest.getNurseId(), nurseRequest);
-//            if (response.getSuccess() == 1) {
-//                return ResponseEntity.ok(response);
-//            } else {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-//            }
-//        } catch (Exception ex) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
-//        }
-//    }
 
     // Update Nurse Information
     @PreAuthorize("hasRole('Nurse')")

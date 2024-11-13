@@ -102,14 +102,4 @@ public class AppointmentController {
         return null;
     }
 
-
-//    @GetMapping("/fetch/{appointmentId}")
-//    public ResponseEntity<BaseApiResponse> fetchAppointment(@PathVariable Long appointmentId) {
-//        BaseApiResponse response = appointmentService.fetchAppointment(appointmentId);
-//        if (response.getSuccess() == 1) {
-//            return ResponseEntity.ok(response); // HTTP 200 OK
-//        } else {
-//            return ResponseEntity.status(404).body(response); // HTTP 404 Not Found
-//        }
-//    }
 }

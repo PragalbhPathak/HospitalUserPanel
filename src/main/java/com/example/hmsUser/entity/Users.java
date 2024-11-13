@@ -39,13 +39,5 @@ public class Users {
     @Column(name = "role")
     private String role;
 
-//    public Users(String name, String email, String password) {
-//        this.username = name;
-//        this.email = email;
-//        this.password = password;
-//    }
-//
-//    public void setName(String name) {
-//    }
 
 }

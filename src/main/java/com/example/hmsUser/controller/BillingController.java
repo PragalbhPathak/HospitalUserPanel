@@ -44,7 +44,6 @@ public class BillingController {
         }
         try {
             BaseApiResponse response = billingImpl.createOrUpdateBill(billingRequest);
-//            return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             BaseApiResponse baseApiResponse = new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
@@ -91,21 +90,4 @@ public class BillingController {
         return null;
     }
 
-
-//-------------------------------------------------
-//    @PreAuthorize("hasAnyRole('Patient','Receptionist')")
-//    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_BILLING)
-//    public ResponseEntity<BaseApiResponse> fetchBill(@RequestBody BillingRequest billingRequest) {
-//        if (billingRequest == null || billingRequest.getBillingId() == null || billingRequest.getBillingId() <= 0) {
-//            return new ResponseEntity<>(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_INVALID, Collections.emptyList()), HttpStatus.BAD_REQUEST);
-//        }
-//
-//        try {
-//            BaseApiResponse response = billingImpl.fetchBill(billingRequest.getBillingId());
-//            return ResponseEntity.status(HttpStatus.OK).body(response);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
-//        }
-//    }
 }

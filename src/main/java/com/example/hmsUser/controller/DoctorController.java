@@ -50,55 +50,7 @@ public class DoctorController {
                     .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
         }
     }
-
-    // Update Doctor Information
-
-//    @PreAuthorize("hasRole('Doctor')")
-//    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_DOCTOR)
-//    public ResponseEntity<BaseApiResponse> updateDoctor(@Valid @RequestBody DoctorRequest doctorRequest) {
-//        try {
-//            // Validation for fields
-//            if (doctorRequest.getDoctorId() == null) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE + "id", Collections.emptyList()));
-//            }
-//            if ((doctorRequest.getSpecialization() == null) || doctorRequest.getSpecialization().isEmpty()) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE +"specialization", Collections.emptyList()));
-//            }
-//            if (doctorRequest.getQualification() == null || doctorRequest.getQualification().isEmpty()) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE +"Qualification", Collections.emptyList()));
-//            }
-//            if (doctorRequest.getExperience() == 0 ) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE +"Experience", Collections.emptyList()));
-//            }
-//            if (doctorRequest.getAddress() == null || doctorRequest.getAddress().isEmpty()) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE +"address", Collections.emptyList()));
-//            }
-//            if (doctorRequest.getContact() == null || !doctorRequest.getContact().matches("^[0-9]{10,12}$")) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE + "contact", Collections.emptyList()));
-//            }
-//            if (doctorRequest.getShift() == null || doctorRequest.getShift().isEmpty()) {
-//                return ResponseEntity.badRequest()
-//                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, FIELD_REQUIRED_MESSAGE + "shift", Collections.emptyList()));
-//            }
-//
-//            // If validation passes, proceed with the update
-//            BaseApiResponse response = doctorImpl.updateDoctor(doctorRequest.getDoctorId(), doctorRequest);
-//            if (response.getSuccess() == 1) {
-//                return ResponseEntity.ok(response);
-//            } else {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-//            }
-//        } catch (Exception ex) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
-//        }
-//    }
+//-------------------------------------------------------------------------------------------------------------------------------
 
 // Update Doctor Information
     @PreAuthorize("hasRole('Doctor')")

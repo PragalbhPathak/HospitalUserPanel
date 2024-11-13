@@ -103,25 +103,6 @@ public class EmergencyController {
         }
     }
 
-//    @PreAuthorize("hasAnyRole('Receptionist','Patient')")
-//    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_EMERGENCY)
-//    public ResponseEntity<BaseApiResponse> fetchEmergency(@RequestBody EmergencyRequest emergencyRequest) {
-//        // Input validation
-//        if (emergencyRequest == null || emergencyRequest.getEmergencyId() == null) {
-//            return ResponseEntity.badRequest().body(new BaseApiResponse(BAD_REQUEST, FAILURE, "Emergency ID is required", null));
-//        }
-//
-//        // Try to fetch the emergency record by emergencyId
-//        try {
-//            BaseApiResponse response = emergencyImpl.getEmergencyById(emergencyRequest.getEmergencyId());
-//
-//            // Return the response from the service
-//            return ResponseEntity.ok(response);
-//        } catch (Exception e) {
-//            // Handle errors during the service call
-//            return ResponseEntity.status(500).body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "An unexpected error occurred", null));
-//        }
-//    }
 }
 
 
