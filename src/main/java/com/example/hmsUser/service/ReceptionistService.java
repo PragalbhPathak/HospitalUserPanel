@@ -24,33 +24,7 @@ public class ReceptionistService implements ReceptionistImpl {
     @Autowired
     private JwtService jwtService;
 
-    //Fetch receptionist by id
-    @Override
-    public BaseApiResponse getReceptionistById(Long receptionistId) {
-        try {
-            Optional<Receptionist> receptionistOpt = receptionistRepository.findById(receptionistId);
-            if (receptionistOpt.isPresent()) {
-                ReceptionistResponse response = new ReceptionistResponse(
-                        receptionistOpt.get().getReceptionistId(),
-                        receptionistOpt.get().getName(),
-                        receptionistOpt.get().getAge(),
-                        receptionistOpt.get().getGender(),
-                        receptionistOpt.get().getAddress(),
-                        receptionistOpt.get().getShift(),
-                        receptionistOpt.get().getContact(),
-                        receptionistOpt.get().getEmail()
-                );
-                return new BaseApiResponse(SUCCESS_OK, SUCCESS, COMMON_MESSAGE_DATA_FETCHED, response);
-            } else {
-                return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
-            }
-        } catch (Exception ex) {
-            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
-        }
-    }
-//----------------------------------------------------------------------------------------------------------------------------------------------
-
-    // Update Nurse Information
+    // Update Receptionist Information
     @Override
     public BaseApiResponse updateReceptionist(Long receptionistId, ReceptionistRequest receptionistRequest, String token) {
         try {
@@ -85,6 +59,32 @@ public class ReceptionistService implements ReceptionistImpl {
                 // Save the updated nurse
                 receptionistRepository.save(receptionist);
                 return new BaseApiResponse(SUCCESS_OK, SUCCESS, COMMON_MESSAGE_UPDATION, Collections.emptyList());
+            } else {
+                return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
+            }
+        } catch (Exception ex) {
+            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
+        }
+    }
+    //---------------------------------------------------------------------------------------------------------------------
+
+    //Fetch Receptionist by id
+    @Override
+    public BaseApiResponse getReceptionistById(Long receptionistId) {
+        try {
+            Optional<Receptionist> receptionistOpt = receptionistRepository.findById(receptionistId);
+            if (receptionistOpt.isPresent()) {
+                ReceptionistResponse response = new ReceptionistResponse(
+                        receptionistOpt.get().getReceptionistId(),
+                        receptionistOpt.get().getName(),
+                        receptionistOpt.get().getAge(),
+                        receptionistOpt.get().getGender(),
+                        receptionistOpt.get().getAddress(),
+                        receptionistOpt.get().getShift(),
+                        receptionistOpt.get().getContact(),
+                        receptionistOpt.get().getEmail()
+                );
+                return new BaseApiResponse(SUCCESS_OK, SUCCESS, COMMON_MESSAGE_DATA_FETCHED, response);
             } else {
                 return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
             }

@@ -34,7 +34,7 @@ public class EmergencyService implements EmergencyImpl {
     private JwtService jwtService;
 
     @Transactional
-    // Create or update emergency
+    // Create or Update emergency
     @Override
     public BaseApiResponse createOrUpdateEmergency(EmergencyRequest emergencyRequest) {
         try {
@@ -69,58 +69,7 @@ public class EmergencyService implements EmergencyImpl {
             return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "An unexpected error occurred", Collections.emptyList());
         }
     }
-
-
-//    public BaseApiResponse getEmergencyById(Long emergencyId, String token) {
-//        try {
-//            // Extract patient ID and role from the token
-//            Long loggedInPatientId = jwtService.extractId(token);
-//            String loggedInRole = jwtService.extractRole(token);
-//            System.out.println("Logged in role: " + loggedInRole);  // Debugging line
-//            System.out.println("Logged in patient ID: " + loggedInPatientId);  // Debugging line
-//
-//            // Fetch the emergency record
-//            Emergency emergency = emergencyRepository.findById(emergencyId).orElse(null);
-//
-//            if (emergency == null) {
-//                return new BaseApiResponse(NOT_FOUND, FAILURE, "Emergency record not found", Collections.emptyList());
-//            }
-//
-//            // Only create the response object if the user is authorized to see the record
-//            EmergencyResponse emergencyResponse = new EmergencyResponse(
-//                    emergency.getEmergencyId(),
-//                    emergency.getEmergencyType(),
-//                    emergency.getAvailability(),
-//                    emergency.getRelatedContact(),
-//                    emergency.getPatientId(),
-//                    emergency.getEmail()
-//            );
-//
-//            // Check if the user is a receptionist or a patient
-//            if ("Receptionist".equalsIgnoreCase(loggedInRole)) {
-//                // Receptionist can access all emergency records
-//                return new BaseApiResponse(SUCCESS_OK, SUCCESS, "Emergency record fetched successfully", emergencyResponse);
-//            } else if ("Patient".equalsIgnoreCase(loggedInRole)) {
-//                // Patient can only access their own emergency record
-//                if (emergency.getPatientId().equals(loggedInPatientId)) {
-//                    return new BaseApiResponse(SUCCESS_OK, SUCCESS, "Emergency record fetched successfully", emergencyResponse);
-//                } else {
-//                    // Unauthorized if the patient tries to access another patient's emergency record
-//                    return new BaseApiResponse(UNAUTHORIZED, FAILURE, "You are not authorized to access this record", Collections.emptyList());
-//                }
-//            } else {
-//                // If the role is not recognized (error case)
-//                return new BaseApiResponse(UNAUTHORIZED, FAILURE, "Unauthorized role", Collections.emptyList());
-//            }
-//        } catch (JwtException ex) {
-//            // Specific exception handling for invalid token
-//            return new BaseApiResponse(UNAUTHORIZED, FAILURE, "Invalid token", Collections.emptyList());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // Catch unexpected errors
-//            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "An unexpected error occurred", Collections.emptyList());
-//        }
-//    }
+    //----------------------------------------------------------------------------------------------------------------------------------------
 
     // Fetch emergency by ID
     @Override
@@ -166,34 +115,5 @@ public class EmergencyService implements EmergencyImpl {
             return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR , Collections.emptyList());
         }
     }
-
-
-
-//
-//    // Fetch emergency by ID
-//    public BaseApiResponse getEmergencyById(Long emergencyId) {
-//        try {
-//            // Retrieve the emergency record by ID
-//            Emergency emergency = emergencyRepository.findById(emergencyId).orElse(null);
-//
-//            if (emergency == null) {
-//                // If the emergency doesn't exist, return an error response
-//                return new BaseApiResponse(NOT_FOUND, FAILURE, "Emergency record not found", Collections.emptyList());
-//            }
-//
-//            // Create the response object
-//            EmergencyResponse emergencyResponse = new EmergencyResponse(
-//                    emergency.getEmergencyId(),
-//                    emergency.getEmergencyType(),
-//                    emergency.getAvailability(),
-//                    emergency.getRelatedContact(),
-//                    emergency.getPatientId()
-//            );
-//
-//            return new BaseApiResponse(SUCCESS_OK, SUCCESS, "Emergency record fetched successfully", emergencyResponse);
-//        } catch (Exception e) {
-//            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "An unexpected error occurred", Collections.emptyList());
-//        }
-//    }
 
 }

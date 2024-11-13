@@ -16,9 +16,7 @@ public class PatientResponse {
     private String medicalHistory;
     private String contact;
     private String email;
-//    private String password;
 
-//    private Long userId;
     private Long doctorId;
     private Long nurseId;
 }

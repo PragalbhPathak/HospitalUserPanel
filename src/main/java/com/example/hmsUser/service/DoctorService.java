@@ -26,38 +26,6 @@ public class DoctorService implements DoctorImpl {
     @Autowired
     private JwtService jwtService;
 
-    @Override
-    public BaseApiResponse getDoctorById(Long doctorId, String token) {
-        try {
-            // Extract email from the JWT token
-            String email = jwtService.extractEmail(token);
-
-            Optional<Doctor> doctorOpt = doctorRepository.findById(doctorId);
-            if (doctorOpt.isPresent()) {
-                // Ensure that the logged-in doctor is trying to access their own data
-                if (doctorOpt.get().getEmail().equalsIgnoreCase(email)) {
-                    DoctorResponse response = new DoctorResponse(
-                            doctorOpt.get().getDoctorId(),
-                            doctorOpt.get().getName(),
-                            doctorOpt.get().getExperience(),
-                            doctorOpt.get().getQualification(),
-                            doctorOpt.get().getSpecialization(),
-                            doctorOpt.get().getAddress(),
-                            doctorOpt.get().getShift(),
-                            doctorOpt.get().getContact(),
-                            doctorOpt.get().getEmail()
-                    );
-                    return new BaseApiResponse(SUCCESS_OK, SUCCESS, "Doctor data fetched successfully", response);
-                } else {
-                    return new BaseApiResponse(UNAUTHORIZED, FAILURE, "You can only access your own data", Collections.emptyList());
-                }
-            } else {
-                return new BaseApiResponse(NOT_FOUND, FAILURE, "Doctor not found", Collections.emptyList());
-            }
-        } catch (Exception ex) {
-            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
-        }
-    }
 
     // Update Doctor Information
     @Override
@@ -103,6 +71,41 @@ public class DoctorService implements DoctorImpl {
                     return new BaseApiResponse(SUCCESS_OK, SUCCESS, "Doctor data updated successfully", Collections.emptyList());
                 } else {
                     return new BaseApiResponse(UNAUTHORIZED, FAILURE, "You can only update your own data", Collections.emptyList());
+                }
+            } else {
+                return new BaseApiResponse(NOT_FOUND, FAILURE, "Doctor not found", Collections.emptyList());
+            }
+        } catch (Exception ex) {
+            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
+        }
+    }
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+    // Fetch Doctor by Id
+    @Override
+    public BaseApiResponse getDoctorById(Long doctorId, String token) {
+        try {
+            // Extract email from the JWT token
+            String email = jwtService.extractEmail(token);
+
+            Optional<Doctor> doctorOpt = doctorRepository.findById(doctorId);
+            if (doctorOpt.isPresent()) {
+                // Ensure that the logged-in doctor is trying to access their own data
+                if (doctorOpt.get().getEmail().equalsIgnoreCase(email)) {
+                    DoctorResponse response = new DoctorResponse(
+                            doctorOpt.get().getDoctorId(),
+                            doctorOpt.get().getName(),
+                            doctorOpt.get().getExperience(),
+                            doctorOpt.get().getQualification(),
+                            doctorOpt.get().getSpecialization(),
+                            doctorOpt.get().getAddress(),
+                            doctorOpt.get().getShift(),
+                            doctorOpt.get().getContact(),
+                            doctorOpt.get().getEmail()
+                    );
+                    return new BaseApiResponse(SUCCESS_OK, SUCCESS, "Doctor data fetched successfully", response);
+                } else {
+                    return new BaseApiResponse(UNAUTHORIZED, FAILURE, "You can only access your own data", Collections.emptyList());
                 }
             } else {
                 return new BaseApiResponse(NOT_FOUND, FAILURE, "Doctor not found", Collections.emptyList());

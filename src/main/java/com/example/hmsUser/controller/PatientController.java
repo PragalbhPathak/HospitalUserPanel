@@ -26,6 +26,7 @@ import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.SUCCES
 
 @RestController
 @RequestMapping(BASE_URL)
+
 public class PatientController {
 
     @Autowired
@@ -37,36 +38,7 @@ public class PatientController {
     @Autowired
     public PatientRepository patientRepository;
 
-
-    // Get Patient Information
-    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_PATIENT)
-    @PreAuthorize("hasAnyRole('Patient','Nurse')")
-    public ResponseEntity<BaseApiResponse> getPatient(@Valid @RequestBody PatientRequest patientRequest, HttpServletRequest request) {
-        try {
-            String token = request.getHeader("Authorization");
-            if (token == null || !token.startsWith("Bearer ")) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, "Token missing or malformed", Collections.emptyList()));
-            }
-
-            token = token.substring(7); // Extract token part after "Bearer "
-            BaseApiResponse response = patientImpl.getPatientById(patientRequest.getPatientId(), token);
-
-            if (response.getSuccess() == 1) {
-                return ResponseEntity.status(HttpStatus.OK).body(response);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "Internal server error", Collections.emptyList()));
-        }
-    }
-
-    //------------------------------------------------------------------------------------------
-
-    // Update Patient Information
+    // Create or Update Patient Information
 
     @PreAuthorize("hasRole('Patient')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_PATIENT)
@@ -136,6 +108,33 @@ public class PatientController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
+        }
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    // Get Patient Information
+    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_PATIENT)
+    @PreAuthorize("hasAnyRole('Patient','Nurse')")
+    public ResponseEntity<BaseApiResponse> getPatient(@Valid @RequestBody PatientRequest patientRequest, HttpServletRequest request) {
+        try {
+            String token = request.getHeader("Authorization");
+            if (token == null || !token.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, "Token missing or malformed", Collections.emptyList()));
+            }
+
+            token = token.substring(7); // Extract token part after "Bearer "
+            BaseApiResponse response = patientImpl.getPatientById(patientRequest.getPatientId(), token);
+
+            if (response.getSuccess() == 1) {
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "Internal server error", Collections.emptyList()));
         }
     }
 

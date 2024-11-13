@@ -8,5 +8,4 @@ public interface PatientImpl {
     BaseApiResponse updatePatient(Long patientId, PatientRequest patientRequest);
     BaseApiResponse getPatientById(Long patientId,String token);
 
-   // BaseApiResponse profile(HttpServletRequest request);
 }

@@ -10,13 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReceptionistRequest {
     private Long receptionistId;
-   // private String name;
     private int age;
     private String gender;
     private String address;
     private String shift;
     private String contact;
-   // private String email;
-    //private String password;
 
 }

@@ -20,5 +20,4 @@ public class BillingResponse {
     private Long patientId;
     private String email;
 
-
 }

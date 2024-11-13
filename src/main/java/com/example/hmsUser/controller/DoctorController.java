@@ -27,31 +27,6 @@ public class DoctorController {
     @Autowired
     private DoctorImpl doctorImpl; // Use the interface
 
-    // Fetch Doctor by ID
-    @PreAuthorize("hasRole('Doctor')")
-    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_DOCTOR)
-    public ResponseEntity<BaseApiResponse> getDoctor(@Valid @RequestBody DoctorRequest doctorRequest,  HttpServletRequest request) {
-        try {
-            String token = request.getHeader("Authorization");
-            if (token == null || !token.startsWith("Bearer ")) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, "Token missing or malformed", Collections.emptyList()));
-            }
-            token = token.substring(7); // Extract token part after "Bearer "
-            // Pass token to service layer to ensure the logged-in doctor is validated
-            BaseApiResponse response = doctorImpl.getDoctorById(doctorRequest.getDoctorId(), token);
-            if (response.getSuccess() == 1) {
-                return ResponseEntity.ok(response);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
-        }
-    }
-//-------------------------------------------------------------------------------------------------------------------------------
-
 // Update Doctor Information
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_DOCTOR)
@@ -106,6 +81,30 @@ public class DoctorController {
                     .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
         }
     }
+    //--------------------------------------------------------------------------------------------------------------------------
 
+    // Fetch Doctor by ID
+    @PreAuthorize("hasRole('Doctor')")
+    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_DOCTOR)
+    public ResponseEntity<BaseApiResponse> getDoctor(@Valid @RequestBody DoctorRequest doctorRequest,  HttpServletRequest request) {
+        try {
+            String token = request.getHeader("Authorization");
+            if (token == null || !token.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, "Token missing or malformed", Collections.emptyList()));
+            }
+            token = token.substring(7); // Extract token part after "Bearer "
+            // Pass token to service layer to ensure the logged-in doctor is validated
+            BaseApiResponse response = doctorImpl.getDoctorById(doctorRequest.getDoctorId(), token);
+            if (response.getSuccess() == 1) {
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
+        }
+    }
 
 }

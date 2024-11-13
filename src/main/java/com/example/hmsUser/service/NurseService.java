@@ -31,8 +31,56 @@ public class NurseService implements NurseImpl {
     @Autowired
     private JwtService jwtService;
 
-    // Fetch Nurse by ID
+    // Update Nurse Information
+    @Override
+    public BaseApiResponse updateNurse(Long nurseId, NurseRequest nurseRequest, String token) {
+        try {
+            // Extract email from the JWT token
+            String emailFromToken = jwtService.extractEmail(token);
 
+            // Fetch the nurse from the repository
+            Optional<Nurse> nurseOpt = nurseRepository.findById(nurseId);
+            if (nurseOpt.isPresent()) {
+                Nurse nurse = nurseOpt.get();
+
+                // Check if the logged-in nurse's email matches the nurse's email in the database
+                if (!nurse.getEmail().equals(emailFromToken)) {
+                    return new BaseApiResponse(UNAUTHORIZED, FAILURE, "Unauthorized access", Collections.emptyList());
+                }
+
+                // Update nurse fields with validation
+                if (nurseRequest.getAge() > 0) {
+                    nurse.setAge(nurseRequest.getAge());
+                }
+                if (nurseRequest.getGender() != null && !nurseRequest.getGender().isEmpty()) {
+                    nurse.setGender(nurseRequest.getGender());
+                }
+                if (nurseRequest.getAddress() != null && !nurseRequest.getAddress().isEmpty()) {
+                    nurse.setAddress(nurseRequest.getAddress());
+                }
+                if (nurseRequest.getContact() != null && !nurseRequest.getContact().isEmpty()) {
+                    nurse.setContact(nurseRequest.getContact());
+                }
+                if (nurseRequest.getShift() != null && !nurseRequest.getShift().isEmpty()) {
+                    nurse.setShift(nurseRequest.getShift());
+                }
+                if (nurseRequest.getDoctorId() != null && !(nurseRequest.getDoctorId() == 0)) {
+                    nurse.setDoctorId(nurseRequest.getDoctorId());
+                }
+
+                // Save the updated nurse
+                nurseRepository.save(nurse);
+                return new BaseApiResponse(SUCCESS_OK, SUCCESS, COMMON_MESSAGE_UPDATION, Collections.emptyList());
+            } else {
+                return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
+            }
+        } catch (Exception ex) {
+            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
+        }
+    }
+    //-------------------------------------------------------------------------------------------------------------------------------
+
+    // Fetch Nurse by ID
     @Override
     public BaseApiResponse getNurseById(Long nurseId, String token) {
         try {
@@ -103,56 +151,5 @@ public class NurseService implements NurseImpl {
                 nurse.getDoctorId()  // Assuming doctorId exists in Nurse entity
         );
     }
-    //-------------------------------------------------------------------------------------------------------------------------------------
-
-    // Update Nurse Information
-
-    @Override
-    public BaseApiResponse updateNurse(Long nurseId, NurseRequest nurseRequest, String token) {
-        try {
-            // Extract email from the JWT token
-            String emailFromToken = jwtService.extractEmail(token);
-
-            // Fetch the nurse from the repository
-            Optional<Nurse> nurseOpt = nurseRepository.findById(nurseId);
-            if (nurseOpt.isPresent()) {
-                Nurse nurse = nurseOpt.get();
-
-                // Check if the logged-in nurse's email matches the nurse's email in the database
-                if (!nurse.getEmail().equals(emailFromToken)) {
-                    return new BaseApiResponse(UNAUTHORIZED, FAILURE, "Unauthorized access", Collections.emptyList());
-                }
-
-                // Update nurse fields with validation
-                if (nurseRequest.getAge() > 0) {
-                    nurse.setAge(nurseRequest.getAge());
-                }
-                if (nurseRequest.getGender() != null && !nurseRequest.getGender().isEmpty()) {
-                    nurse.setGender(nurseRequest.getGender());
-                }
-                if (nurseRequest.getAddress() != null && !nurseRequest.getAddress().isEmpty()) {
-                    nurse.setAddress(nurseRequest.getAddress());
-                }
-                if (nurseRequest.getContact() != null && !nurseRequest.getContact().isEmpty()) {
-                    nurse.setContact(nurseRequest.getContact());
-                }
-                if (nurseRequest.getShift() != null && !nurseRequest.getShift().isEmpty()) {
-                    nurse.setShift(nurseRequest.getShift());
-                }
-                if (nurseRequest.getDoctorId() != null && !(nurseRequest.getDoctorId() == 0)) {
-                    nurse.setDoctorId(nurseRequest.getDoctorId());
-                }
-
-                // Save the updated nurse
-                nurseRepository.save(nurse);
-                return new BaseApiResponse(SUCCESS_OK, SUCCESS, COMMON_MESSAGE_UPDATION, Collections.emptyList());
-            } else {
-                return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
-            }
-        } catch (Exception ex) {
-            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
-        }
-    }
-
 
 }

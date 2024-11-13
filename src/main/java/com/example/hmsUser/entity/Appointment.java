@@ -26,10 +26,6 @@ public class Appointment {
     @Column(name = "patientId")
     private Long patientId;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "appointmentStatus")
-//    private AppointmentStatus appointmentStatus; // Add appointment status
-
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email can't be empty")
     @Column(name = "doctorEmail",nullable = false,unique = true)

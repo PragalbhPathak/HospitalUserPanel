@@ -20,6 +20,4 @@ public class ReceptionistResponse {
     private String contact;
     private String email;
 
-//    private String password;
-
 }

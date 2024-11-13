@@ -26,30 +26,13 @@ import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.SUCCES
 @RestController
 @RequestMapping(BASE_URL)
 @CrossOrigin("*")
+
 public class ReceptionistController {
 
     @Autowired
     private ReceptionistImpl receptionistImpl; // Use the interface
 
-    // Fetch Receptionist by ID
-    @PreAuthorize("hasRole('Receptionist')")
-    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_RECEPTIONIST)
-    public ResponseEntity<BaseApiResponse> getReceptionist(@Valid @RequestBody ReceptionistRequest receptionistRequest) {
-        try {
-            BaseApiResponse response = receptionistImpl.getReceptionistById(receptionistRequest.getReceptionistId());
-            if (response.getSuccess() == 1) {
-                return ResponseEntity.ok(response);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
-        }
-    }
-//------------------------------------------------------------------------------------------------------------
-
-    // Update Receptionist Information
+    // Create or Update Receptionist Information
     @PreAuthorize("hasRole('Receptionist')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_RECEPTIONIST)
     public ResponseEntity<BaseApiResponse> updateReceptionist(@Valid @RequestBody ReceptionistRequest receptionistRequest, HttpServletRequest request) {
@@ -90,6 +73,24 @@ public class ReceptionistController {
 
             // If validation passes, proceed with the update
             BaseApiResponse response = receptionistImpl.updateReceptionist(receptionistRequest.getReceptionistId(), receptionistRequest,token);
+            if (response.getSuccess() == 1) {
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
+        }
+    }
+    //-----------------------------------------------------------------------------------------------------------------------------
+
+    // Fetch Receptionist by ID
+    @PreAuthorize("hasRole('Receptionist')")
+    @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_RECEPTIONIST)
+    public ResponseEntity<BaseApiResponse> getReceptionist(@Valid @RequestBody ReceptionistRequest receptionistRequest) {
+        try {
+            BaseApiResponse response = receptionistImpl.getReceptionistById(receptionistRequest.getReceptionistId());
             if (response.getSuccess() == 1) {
                 return ResponseEntity.ok(response);
             } else {

@@ -9,15 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NurseRequest {
     private Long nurseId;
-    //private String name;
     private int age;
     private String gender;
     private String address;
     private String shift;
     private String contact;
-    //private String email;
-    //private String password;
 
-    //private Long userId;
     private Long doctorId;
 }

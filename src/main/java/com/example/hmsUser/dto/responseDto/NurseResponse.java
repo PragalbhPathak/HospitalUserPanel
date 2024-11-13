@@ -16,8 +16,6 @@ public class NurseResponse {
     private String shift;
     private String contact;
     private String email;
-//    private String password;
 
-//    private Long userId;
     private Long doctorId;
 }

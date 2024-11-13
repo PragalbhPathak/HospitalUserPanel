@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 
 import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.BASE_URL;
+import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.MESSAGE_NAMES.COMMON_ERROR;
 import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.MESSAGE_NAMES.COMMON_MESSAGE_FORMAT;
 import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.STATUS_CODES.BAD_REQUEST;
 import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.STATUS_CODES.INTERNAL_SERVER_ERROR;
@@ -29,7 +30,7 @@ public class EmergencyController {
     @Autowired
     private JwtService jwtService;
 
-    // POST mapping for creating or updating emergency
+    // creating or updating emergency
     @PreAuthorize("hasRole('Receptionist')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_EMERGENCY)
     public ResponseEntity<BaseApiResponse> createOrUpdateEmergency(@RequestBody EmergencyRequest emergencyRequest) {
@@ -60,7 +61,7 @@ public class EmergencyController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             // Handle errors during the service call
-            return ResponseEntity.status(500).body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "An unexpected error occurred",  Collections.emptyList()));
+            return ResponseEntity.status(500).body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR,  Collections.emptyList()));
         }
     }
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -80,7 +81,7 @@ public class EmergencyController {
         String token = request.getHeader("Authorization");
             if (token == null || !token.startsWith("Bearer ")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, "Token missing or malformed", Collections.emptyList()));
+                        .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_ERROR, Collections.emptyList()));
             }
         token = token.substring(7); // Strip "Bearer "
 
@@ -99,7 +100,7 @@ public class EmergencyController {
         } catch (Exception e) {
             // Handle errors during the service call
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "An unexpected error occurred", Collections.emptyList()));
+                    .body(new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList()));
         }
     }
 

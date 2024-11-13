@@ -15,5 +15,4 @@ public class UsersRequest {
     private String status;
     private String role;
 
-
 }

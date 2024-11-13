@@ -60,9 +60,7 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(baseApiResponse);
         }
     }
-
-
-    // Endpoint to fetch an appointment by ID
+    //-----------------------------------------------------------------------------------------------------------------------------------
 
     // Fetch record by any receptionist or logged in patient
     @PreAuthorize("hasAnyRole('Patient','Doctor','Receptionist')")

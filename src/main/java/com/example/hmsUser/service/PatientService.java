@@ -29,6 +29,50 @@ public class PatientService implements PatientImpl {
     @Autowired
     private JwtService jwtService;
 
+    //Update Patient Information
+    @Override
+    public BaseApiResponse updatePatient(Long patientId, PatientRequest patientRequest) {
+        try {
+            Optional<Patient> patientOpt = patientRepository.findById(patientId);
+            if (patientOpt.isPresent()) {
+                Patient patient = patientOpt.get();
+
+                // Update fields that are not related to user entity with validation
+                if (patientRequest.getAge() > 0) {
+                    patient.setAge(patientRequest.getAge());
+                }
+                if (patientRequest.getGender() != null && !patientRequest.getGender().isEmpty()) {
+                    patient.setGender(patientRequest.getGender());
+                }
+                if (patientRequest.getAddress() != null && !patientRequest.getAddress().isEmpty()) {
+                    patient.setAddress(patientRequest.getAddress());
+                }
+                if (patientRequest.getMedicalHistory() != null && !patientRequest.getMedicalHistory().isEmpty()) {
+                    patient.setMedicalHistory(patientRequest.getMedicalHistory());
+                }
+                if (patientRequest.getContact() != null && !patientRequest.getContact().isEmpty()) {
+                    patient.setContact(patientRequest.getContact());
+                }
+                if (patientRequest.getDoctorId() != null && !(patientRequest.getDoctorId() == 0)) {
+                    patient.setDoctorId(patientRequest.getDoctorId());
+                }
+                if (patientRequest.getNurseId() != null && !(patientRequest.getNurseId() == 0)) {
+                    patient.setNurseId(patientRequest.getNurseId());
+                }
+
+                // Save the updated patient
+                patientRepository.save(patient);
+                return new BaseApiResponse(SUCCESS_OK, SUCCESS, COMMON_MESSAGE_UPDATION, Collections.emptyList());
+            } else {
+                return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
+            }
+        } catch (Exception ex) {
+            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
+        }
+    }
+//-----------------------------------------------------------------------------------------------------------------------
+
+    // Fetch Patient Information
     @Override
     public BaseApiResponse getPatientById(Long patientId, String token) {
         try {
@@ -97,49 +141,6 @@ public class PatientService implements PatientImpl {
                 patient.getDoctorId(),
                 patient.getNurseId()
         );
-    }
-//--------------------------------------------------------------------------------------------------------------------------------------
-
-    // Update Patient Information
-    @Override
-    public BaseApiResponse updatePatient(Long patientId, PatientRequest patientRequest) {
-        try {
-            Optional<Patient> patientOpt = patientRepository.findById(patientId);
-            if (patientOpt.isPresent()) {
-                Patient patient = patientOpt.get();
-
-                // Update fields that are not related to user entity with validation
-                if (patientRequest.getAge() > 0) {
-                    patient.setAge(patientRequest.getAge());
-                }
-                if (patientRequest.getGender() != null && !patientRequest.getGender().isEmpty()) {
-                    patient.setGender(patientRequest.getGender());
-                }
-                if (patientRequest.getAddress() != null && !patientRequest.getAddress().isEmpty()) {
-                    patient.setAddress(patientRequest.getAddress());
-                }
-                if (patientRequest.getMedicalHistory() != null && !patientRequest.getMedicalHistory().isEmpty()) {
-                    patient.setMedicalHistory(patientRequest.getMedicalHistory());
-                }
-                if (patientRequest.getContact() != null && !patientRequest.getContact().isEmpty()) {
-                    patient.setContact(patientRequest.getContact());
-                }
-                if (patientRequest.getDoctorId() != null && !(patientRequest.getDoctorId() == 0)) {
-                    patient.setDoctorId(patientRequest.getDoctorId());
-                }
-                if (patientRequest.getNurseId() != null && !(patientRequest.getNurseId() == 0)) {
-                    patient.setNurseId(patientRequest.getNurseId());
-                }
-
-                // Save the updated patient
-                patientRepository.save(patient);
-                return new BaseApiResponse(SUCCESS_OK, SUCCESS, COMMON_MESSAGE_UPDATION, Collections.emptyList());
-            } else {
-                return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
-            }
-        } catch (Exception ex) {
-            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());
-        }
     }
 
 }

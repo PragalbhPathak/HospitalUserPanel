@@ -39,5 +39,4 @@ public class Users {
     @Column(name = "role")
     private String role;
 
-
 }
