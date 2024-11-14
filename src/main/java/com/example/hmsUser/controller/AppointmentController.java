@@ -3,6 +3,7 @@ package com.example.hmsUser.controller;
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
 import com.example.hmsUser.dto.requestDto.AppointmentRequest;
 import com.example.hmsUser.dto.requestDto.BillingRequest;
+import com.example.hmsUser.dto.requestDto.SearchRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
 import com.example.hmsUser.implementation.AppointmentImpl;
 import com.example.hmsUser.service.AppointmentService;
@@ -65,8 +66,8 @@ public class AppointmentController {
     // Fetch record by any receptionist or logged in patient
     @PreAuthorize("hasAnyRole('Patient','Doctor','Receptionist')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_APPOINTMENT)
-    public ResponseEntity<BaseApiResponse> fetchAppointment(@RequestBody AppointmentRequest appointmentRequest, HttpServletRequest request) {
-        if (appointmentRequest == null || appointmentRequest.getAppointmentId() == null || appointmentRequest.getAppointmentId() <= 0) {
+    public ResponseEntity<BaseApiResponse> fetchAppointment(@RequestBody SearchRequest searchRequest, HttpServletRequest request) {
+        if (searchRequest == null || searchRequest.getId() == null || searchRequest.getId() <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_INVALID, Collections.emptyList()));
         }
@@ -82,7 +83,7 @@ public class AppointmentController {
             String loggedInUserEmail = jwtService.extractEmail(token);
 
             // Call the service with the logged-in user's email and role
-            BaseApiResponse response = appointmentImpl.fetchAppointment(appointmentRequest.getAppointmentId(), loggedInUserEmail, role);
+            BaseApiResponse response = appointmentImpl.fetchAppointment(searchRequest.getId(), loggedInUserEmail, role);
 
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {

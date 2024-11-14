@@ -1,10 +1,9 @@
 package com.example.hmsUser.controller;
 
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
-import com.example.hmsUser.dto.requestDto.NurseRequest;
 import com.example.hmsUser.dto.requestDto.ReceptionistRequest;
+import com.example.hmsUser.dto.requestDto.SearchRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
-import com.example.hmsUser.implementation.NurseImpl;
 import com.example.hmsUser.implementation.ReceptionistImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,6 +34,7 @@ public class ReceptionistController {
     // Create or Update Receptionist Information
     @PreAuthorize("hasRole('Receptionist')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_RECEPTIONIST)
+
     public ResponseEntity<BaseApiResponse> updateReceptionist(@Valid @RequestBody ReceptionistRequest receptionistRequest, HttpServletRequest request) {
         try {
 
@@ -88,9 +88,9 @@ public class ReceptionistController {
     // Fetch Receptionist by ID
     @PreAuthorize("hasRole('Receptionist')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_RECEPTIONIST)
-    public ResponseEntity<BaseApiResponse> getReceptionist(@Valid @RequestBody ReceptionistRequest receptionistRequest) {
+    public ResponseEntity<BaseApiResponse> getReceptionist(@Valid @RequestBody SearchRequest searchRequest) {
         try {
-            BaseApiResponse response = receptionistImpl.getReceptionistById(receptionistRequest.getReceptionistId());
+            BaseApiResponse response = receptionistImpl.getReceptionistById(searchRequest.getId());
             if (response.getSuccess() == 1) {
                 return ResponseEntity.ok(response);
             } else {

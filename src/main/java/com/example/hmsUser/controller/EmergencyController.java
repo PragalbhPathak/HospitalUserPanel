@@ -2,6 +2,7 @@ package com.example.hmsUser.controller;
 
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
 import com.example.hmsUser.dto.requestDto.EmergencyRequest;
+import com.example.hmsUser.dto.requestDto.SearchRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
 import com.example.hmsUser.implementation.EmergencyImpl;
 import com.example.hmsUser.service.JwtService;
@@ -69,9 +70,9 @@ public class EmergencyController {
     // Get Emergency Data
     @PreAuthorize("hasAnyRole('Receptionist', 'Patient')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_EMERGENCY)
-    public ResponseEntity<BaseApiResponse> fetchEmergency(@RequestBody EmergencyRequest emergencyRequest, HttpServletRequest request) {
-        // Validate input
-        if (emergencyRequest == null || emergencyRequest.getEmergencyId() == null) {
+    public ResponseEntity<BaseApiResponse> fetchEmergency(@RequestBody SearchRequest searchRequest, HttpServletRequest request) {
+        // Validate input ID
+        if (searchRequest == null || searchRequest.getId() == null) {
             return ResponseEntity.badRequest().body(new BaseApiResponse(BAD_REQUEST, FAILURE, "Emergency ID is required", Collections.emptyList()));
         }
 
@@ -92,7 +93,7 @@ public class EmergencyController {
         String loggedInUserEmail = jwtService.extractEmail(token);
 
             // Call the service method to get the emergency record, passing the token directly
-            BaseApiResponse response = emergencyImpl.getEmergencyById(emergencyRequest.getEmergencyId(),loggedInUserEmail,role);
+            BaseApiResponse response = emergencyImpl.getEmergencyById(searchRequest.getId(),loggedInUserEmail,role);
             System.out.println("Response: " + response);
 
             // Return the response from the service

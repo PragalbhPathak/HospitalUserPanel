@@ -27,6 +27,7 @@ public class ReceptionistService implements ReceptionistImpl {
     // Update Receptionist Information
     @Override
     public BaseApiResponse updateReceptionist(Long receptionistId, ReceptionistRequest receptionistRequest, String token) {
+
         try {
             String emailFromToken = jwtService.extractEmail(token);
 

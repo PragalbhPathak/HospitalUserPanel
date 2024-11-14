@@ -3,10 +3,8 @@ package com.example.hmsUser.service;
 import com.example.hmsUser.dto.requestDto.NurseRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
 import com.example.hmsUser.dto.responseDto.NurseResponse;
-import com.example.hmsUser.dto.responseDto.PatientResponse;
 import com.example.hmsUser.entity.Doctor;
 import com.example.hmsUser.entity.Nurse;
-import com.example.hmsUser.entity.Patient;
 import com.example.hmsUser.implementation.NurseImpl;
 import com.example.hmsUser.repository.DoctorRepository;
 import com.example.hmsUser.repository.NurseRepository;
@@ -132,7 +130,6 @@ public class NurseService implements NurseImpl {
             return new BaseApiResponse(SUCCESS_OK, SUCCESS, "Data fetched successfully", response);
 
         } catch (Exception ex) {
-            ex.printStackTrace();  // Log the exception (optional)
             return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, "An unexpected error occurred", Collections.emptyList());
         }
     }

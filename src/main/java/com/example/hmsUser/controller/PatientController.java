@@ -2,6 +2,7 @@ package com.example.hmsUser.controller;
 
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
 import com.example.hmsUser.dto.requestDto.PatientRequest;
+import com.example.hmsUser.dto.requestDto.SearchRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
 import com.example.hmsUser.entity.Patient;
 import com.example.hmsUser.implementation.PatientImpl;
@@ -115,7 +116,7 @@ public class PatientController {
     // Get Patient Information
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_PATIENT)
     @PreAuthorize("hasAnyRole('Patient','Nurse')")
-    public ResponseEntity<BaseApiResponse> getPatient(@Valid @RequestBody PatientRequest patientRequest, HttpServletRequest request) {
+    public ResponseEntity<BaseApiResponse> getPatient(@Valid @RequestBody SearchRequest searchRequest, HttpServletRequest request) {
         try {
             String token = request.getHeader("Authorization");
             if (token == null || !token.startsWith("Bearer ")) {
@@ -124,7 +125,7 @@ public class PatientController {
             }
 
             token = token.substring(7); // Extract token part after "Bearer "
-            BaseApiResponse response = patientImpl.getPatientById(patientRequest.getPatientId(), token);
+            BaseApiResponse response = patientImpl.getPatientById(searchRequest.getId(), token);
 
             if (response.getSuccess() == 1) {
                 return ResponseEntity.status(HttpStatus.OK).body(response);

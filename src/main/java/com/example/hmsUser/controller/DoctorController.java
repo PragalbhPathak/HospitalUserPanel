@@ -2,6 +2,7 @@ package com.example.hmsUser.controller;
 
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
 import com.example.hmsUser.dto.requestDto.DoctorRequest;
+import com.example.hmsUser.dto.requestDto.SearchRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
 import com.example.hmsUser.implementation.DoctorImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -86,7 +87,7 @@ public class DoctorController {
     // Fetch Doctor by ID
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_DOCTOR)
-    public ResponseEntity<BaseApiResponse> getDoctor(@Valid @RequestBody DoctorRequest doctorRequest,  HttpServletRequest request) {
+    public ResponseEntity<BaseApiResponse> getDoctor(@Valid @RequestBody SearchRequest searchRequest, HttpServletRequest request) {
         try {
             String token = request.getHeader("Authorization");
             if (token == null || !token.startsWith("Bearer ")) {
@@ -95,7 +96,7 @@ public class DoctorController {
             }
             token = token.substring(7); // Extract token part after "Bearer "
             // Pass token to service layer to ensure the logged-in doctor is validated
-            BaseApiResponse response = doctorImpl.getDoctorById(doctorRequest.getDoctorId(), token);
+            BaseApiResponse response = doctorImpl.getDoctorById(searchRequest.getId(), token);
             if (response.getSuccess() == 1) {
                 return ResponseEntity.ok(response);
             } else {

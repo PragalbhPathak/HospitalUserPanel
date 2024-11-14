@@ -2,6 +2,7 @@ package com.example.hmsUser.controller;
 
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
 import com.example.hmsUser.dto.requestDto.BillingRequest;
+import com.example.hmsUser.dto.requestDto.SearchRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
 import com.example.hmsUser.implementation.BillingImpl;
 import com.example.hmsUser.service.BillingService;
@@ -55,8 +56,8 @@ public class BillingController {
     // Fetch record by any receptionist or logged in patient
     @PreAuthorize("hasAnyRole('Patient','Receptionist')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.FETCH_BILLING)
-    public ResponseEntity<BaseApiResponse> fetchBill(@RequestBody BillingRequest billingRequest, HttpServletRequest request) {
-        if (billingRequest == null || billingRequest.getBillingId() == null || billingRequest.getBillingId() <= 0) {
+    public ResponseEntity<BaseApiResponse> fetchBill(@RequestBody SearchRequest searchRequest, HttpServletRequest request) {
+        if (searchRequest == null || searchRequest.getId() == null || searchRequest.getId() <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_INVALID, Collections.emptyList()));
         }
@@ -72,7 +73,7 @@ public class BillingController {
             String loggedInUserEmail = jwtService.extractEmail(token);
 
             // Call the service with the logged-in user's email and role
-            BaseApiResponse response = billingImpl.fetchBill(billingRequest.getBillingId(), loggedInUserEmail, role);
+            BaseApiResponse response = billingImpl.fetchBill(searchRequest.getId(), loggedInUserEmail, role);
 
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
