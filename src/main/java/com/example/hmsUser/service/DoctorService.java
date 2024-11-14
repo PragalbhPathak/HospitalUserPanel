@@ -81,7 +81,7 @@ public class DoctorService implements DoctorImpl {
     }
     //-------------------------------------------------------------------------------------------------------------------------------
 
-    // Fetch Doctor by Id
+    // Fetch Doctor Information
     @Override
     public BaseApiResponse getDoctorById(Long doctorId, String token) {
         try {

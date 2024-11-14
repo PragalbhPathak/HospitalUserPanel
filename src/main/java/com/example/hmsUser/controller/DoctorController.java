@@ -27,7 +27,7 @@ public class DoctorController {
     @Autowired
     private DoctorImpl doctorImpl; // Use the interface
 
-// Update Doctor Information
+    // Update Doctor Information
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_DOCTOR)
     public ResponseEntity<BaseApiResponse> updateDoctor(@Valid @RequestBody DoctorRequest doctorRequest, HttpServletRequest request) {
