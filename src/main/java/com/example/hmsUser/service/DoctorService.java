@@ -22,10 +22,8 @@ public class DoctorService implements DoctorImpl {
 
     @Autowired
     private DoctorRepository doctorRepository;
-
     @Autowired
     private JwtService jwtService;
-
 
     // Update Doctor Information
     @Override

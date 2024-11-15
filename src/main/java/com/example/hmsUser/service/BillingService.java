@@ -25,9 +25,6 @@ public class BillingService implements BillingImpl {
     @Autowired
     private BillingRepository billingRepository;
 
-    @Autowired
-    private JwtService jwtService;
-
     @Transactional
     @Override
     public BaseApiResponse createOrUpdateBill(BillingRequest billingRequest) {

@@ -2,9 +2,7 @@ package com.example.hmsUser.controller;
 
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
 import com.example.hmsUser.dto.requestDto.UserLoginRequest;
-import com.example.hmsUser.dto.requestDto.UsersRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
-import com.example.hmsUser.entity.Users;
 
 import com.example.hmsUser.implementation.UsersImpl;
 import org.springframework.http.HttpStatus;

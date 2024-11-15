@@ -17,10 +17,8 @@ public class UsersService implements UsersImpl {
 
     @Autowired
     public UsersRepository userRepository;
-
     @Autowired
     public JwtService jwtService;
-
     @Autowired
     public PasswordEncoder passwordEncoder;
 

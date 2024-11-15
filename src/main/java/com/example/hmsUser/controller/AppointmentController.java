@@ -2,7 +2,6 @@ package com.example.hmsUser.controller;
 
 import com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT;
 import com.example.hmsUser.dto.requestDto.AppointmentRequest;
-import com.example.hmsUser.dto.requestDto.BillingRequest;
 import com.example.hmsUser.dto.requestDto.SearchRequest;
 import com.example.hmsUser.dto.responseDto.BaseApiResponse;
 import com.example.hmsUser.implementation.AppointmentImpl;
@@ -28,15 +27,12 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
-
     @Autowired
     private AppointmentImpl appointmentImpl;
-
     @Autowired
     private JwtService jwtService;
 
     // Endpoint to create or update an appointment
-
     @PreAuthorize("hasRole('Receptionist')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_APPOINTMENT)
     public ResponseEntity<BaseApiResponse> createOrUpdateAppointment(@RequestBody AppointmentRequest appointmentRequest) {
@@ -46,15 +42,14 @@ public class AppointmentController {
         }
         if (appointmentRequest.getDoctorEmail() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_FORMAT + "email must be valid", Collections.emptyList()));
+                    .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_FORMAT + "doctor email must be valid", Collections.emptyList()));
         }
         if (appointmentRequest.getPatientEmail() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_FORMAT + "email must be valid", Collections.emptyList()));
+                    .body(new BaseApiResponse(BAD_REQUEST, FAILURE, COMMON_MESSAGE_FORMAT + "patient email must be valid", Collections.emptyList()));
         }
         try {
             BaseApiResponse response = appointmentImpl.createOrUpdateAppointment(appointmentRequest);
-//            return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             BaseApiResponse baseApiResponse = new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR, Collections.emptyList());

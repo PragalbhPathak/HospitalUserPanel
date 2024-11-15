@@ -26,15 +26,11 @@ import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.SUCCES
 @Service
 public class EmergencyService implements EmergencyImpl {
 
-
     @Autowired
     private EmergencyRepository emergencyRepository;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Transactional
     // Create or Update emergency
+    @Transactional
     @Override
     public BaseApiResponse createOrUpdateEmergency(EmergencyRequest emergencyRequest) {
         try {

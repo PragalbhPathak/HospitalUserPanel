@@ -26,10 +26,8 @@ public class BillingController {
 
     @Autowired
     private BillingImpl billingImpl;
-
     @Autowired
     private JwtService jwtService;
-
 
      //Creates or updates a billing record.
     @PreAuthorize("hasRole('Receptionist')")

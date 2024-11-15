@@ -32,15 +32,12 @@ public class PatientController {
 
     @Autowired
     public PatientImpl patientImpl;
-
     @Autowired
     public JwtService jwtService;
-
     @Autowired
     public PatientRepository patientRepository;
 
     // Create or Update Patient Information
-
     @PreAuthorize("hasRole('Patient')")
     @PostMapping(REST_MAPPING_CONSTRAINT.DEFINE_API.UPDATE_PATIENT)
     public ResponseEntity<BaseApiResponse> updatePatient(@Valid @RequestBody PatientRequest patientRequest, HttpServletRequest request) {

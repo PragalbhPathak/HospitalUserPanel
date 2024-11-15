@@ -25,7 +25,6 @@ public class AppointmentService implements AppointmentImpl {
     private AppointmentRepository appointmentRepository;
 
     // Method to create or update an appointment
-
     @Override
     @Transactional
     public BaseApiResponse createOrUpdateAppointment(AppointmentRequest appointmentRequest) {
@@ -119,7 +118,7 @@ public class AppointmentService implements AppointmentImpl {
                 return new BaseApiResponse(NOT_FOUND, FAILURE, NOT_PRESENT, Collections.emptyList());
             }
         } catch (Exception e) {
-            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR + " catch", Collections.emptyList());
+            return new BaseApiResponse(INTERNAL_SERVER_ERROR, FAILURE, COMMON_ERROR , Collections.emptyList());
         }
     }
 

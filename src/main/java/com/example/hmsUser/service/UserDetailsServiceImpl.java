@@ -23,7 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (users.isEmpty()) { // Check if student is present
             throw new UsernameNotFoundException("User not found");
         }
-//        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMIN");
         return new org.springframework.security.core.userdetails.User(
                 users.get().getEmail(),
                 users.get().getPassword(),

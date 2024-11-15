@@ -25,6 +25,7 @@ import static com.example.hmsUser.baseConstraints.REST_MAPPING_CONSTRAINT.SUCCES
 @RestController
 @RequestMapping(BASE_URL)
 public class DoctorController {
+
     @Autowired
     private DoctorImpl doctorImpl; // Use the interface
 

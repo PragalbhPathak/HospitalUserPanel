@@ -91,5 +91,4 @@ public class JwtService
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-
 }
